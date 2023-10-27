@@ -23,6 +23,9 @@ const (
 	CropWidthNarrow = 600
 	CropAnchorX     = 125
 	CropAnchorY     = 40
+
+	ClampByConfidence = true
+	ClampPoint        = 45.0
 )
 
 type Link struct {
@@ -46,7 +49,8 @@ func main() {
 
 	files := []string{}
 	for _, file := range entries {
-		if !file.IsDir() {
+		// TODO: quick hack
+		if !file.IsDir() && file.Name() != ".gitkeep" {
 			files = append(files, file.Name())
 		}
 	}
@@ -69,7 +73,13 @@ func main() {
 		boxes, err := client.GetBoundingBoxes(gosseract.RIL_TEXTLINE)
 		check(err)
 		for _, box := range boxes {
-			linkMap[box.Word] = append(linkMap[box.Word], file)
+			if ClampByConfidence && box.Confidence < ClampPoint {
+				continue
+			}
+
+			word := box.Word
+			fmt.Println("DEBUG", file, box.Confidence, word)
+			linkMap[word] = append(linkMap[word], file)
 		}
 	}
 
