@@ -8,6 +8,7 @@ import (
 	"image/png"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sync"
 
 	"github.com/oliamb/cutter"
@@ -27,6 +28,8 @@ const (
 	ClampByConfidence = true
 	ClampPoint        = 45.0
 )
+
+var NonAlphanumericRegex = regexp.MustCompile(`^[^a-zA-Z0-9 ]+`)
 
 type Link struct {
 	Word     string
@@ -77,7 +80,7 @@ func main() {
 				continue
 			}
 
-			word := box.Word
+			word := NonAlphanumericRegex.ReplaceAllString(box.Word, "")
 			fmt.Println("DEBUG", file, box.Confidence, word)
 			linkMap[word] = append(linkMap[word], file)
 		}
