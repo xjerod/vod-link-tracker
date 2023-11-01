@@ -1,26 +1,44 @@
-// #cgo LDFLAGS: -Wl,-ld_classic
-
 package main
 
 import (
-	"log"
-
-	"github.com/otiai10/gosseract/v2"
+	"os"
+	"path"
+	"text/template"
+	"time"
 )
 
+type Post struct {
+	Name string
+	Date time.Time
+}
+
+type Links struct {
+	Name  string
+	Date  time.Time
+	Links []string
+}
+
 func main() {
-	client := gosseract.NewClient()
-	defer client.Close()
-	if err := client.SetImage("./data/frames/cropped/0001.png"); err != nil {
-		log.Fatal(err)
+	links := Links{
+		Name: "UAW VICTORY!!! DAGESTAN ANTISEMITISM! GAZA WARCRIMES CONTINUE.",
+		Date: time.Now(),
+		Links: []string{
+			"twitter.com/kaitlancollins/status/1717245490826272911",
+		},
 	}
 
-	boxes, err := client.GetBoundingBoxes(gosseract.RIL_TEXTLINE)
+	tmplFile := "./azanlinks/archetypes/links.md"
+	name := path.Base(tmplFile)
+	tmpl := template.Must(template.New(name).ParseFiles(tmplFile))
+
+	file, err := os.Create("./azanlinks/content/posts/2023-10-29.md")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
+	defer file.Close()
 
-	for _, box := range boxes {
-		log.Println(box.Confidence, box.Word)
+	err = tmpl.Execute(file, links)
+	if err != nil {
+		panic(err)
 	}
 }

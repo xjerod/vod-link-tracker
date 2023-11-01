@@ -1,4 +1,36 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'AzanLinks'
 theme = 'hermit-v2'
+
+[params]
+  relatedPosts = false
+  code_copy_button = false
+  readTime = false
+
+  [[params.social]]
+    name = "twitch"
+    url = "https://www.twitch.tv/hasanabi"
+
+  [[params.social]]
+    name = "x"
+    url = "https://twitter.com/hasanthehun"
+
+  [[params.social]]
+    name = "instagram"
+    url = "https://www.instagram.com/hasandpiker"
+
+  [[params.social]]
+    name = "youtube"
+    url = "https://www.youtube.com/hasanabi"
+
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/xjerod/vod-link-tracker"
+
+[menu]
+
+  [[menu.main]]
+    name = "Posts"
+    url = "posts/"
+    weight = 10
