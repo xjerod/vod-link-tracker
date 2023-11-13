@@ -12,14 +12,14 @@ type Post struct {
 	Date time.Time
 }
 
-type Links struct {
+type Content struct {
 	Name  string
 	Date  time.Time
 	Links []string
 }
 
 func main() {
-	links := Links{
+	links := Content{
 		Name: "UAW VICTORY!!! DAGESTAN ANTISEMITISM! GAZA WARCRIMES CONTINUE.",
 		Date: time.Now(),
 		Links: []string{

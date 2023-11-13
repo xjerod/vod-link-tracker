@@ -59,7 +59,7 @@ _cgo_export.*
 
 _testmain.go
 
-data/frames/cropped/*.png
-data/frames/raw/*.png
+data/frames/cropped/*
+data/frames/raw/*
 data/video/*
 !data/video/.gitkeep
